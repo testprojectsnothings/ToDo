@@ -28,7 +28,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
-func PutTasks(w http.ResponseWriter, r *http.Request) {
+func PtTasks(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, valid := helpers.ValidateID(w, vars["id"])
 	if !valid {
