@@ -11,8 +11,7 @@ import (
 
 func PostTask(w http.ResponseWriter, r *http.Request) {
 	var task models.Task
-	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
-		http.Error(w, "Invalid request to add", http.StatusBadRequest)
+	if !helpers.ValidateRequest(w, r, &task) {
 		return
 	}
 
@@ -28,7 +27,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
-func PtTasks(w http.ResponseWriter, r *http.Request) {
+func PutTasks(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, valid := helpers.ValidateID(w, vars["id"])
 	if !valid {
@@ -36,8 +35,7 @@ func PtTasks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var updTask models.Task
-	if err := json.NewDecoder(r.Body).Decode(&updTask); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+	if !helpers.ValidateRequest(w, r, &updTask) {
 		return
 	}
 
